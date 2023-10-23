@@ -2,11 +2,12 @@
   "name": "chat",
   "version": "1.0.50",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "format": "prettier --write src/**/*.ts"
   },
   "dependencies": {
-    "elysia": "latest"
+    "elysia": "latest",
+    "prettier": "^3.0.3"
   },
   "devDependencies": {
     "bun-types": "latest"
