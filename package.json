@@ -3,14 +3,22 @@
   "version": "1.0.50",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
+    "db:generate": "drizzle-kit generate:pg",
+    "db:migrate": "bun run src/utils/migrate.ts",
+    "db:push": "drizzle-kit push:pg",
     "format": "prettier --write src/**/*.ts"
   },
   "dependencies": {
+    "@elysiajs/jwt": "^0.7.0",
+    "drizzle-orm": "^0.28.6",
     "elysia": "latest",
-    "prettier": "^3.0.3"
+    "postgres": "^3.3.5",
+    "prettier": "^3.0.3",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "drizzle-kit": "^0.19.13"
   },
   "module": "src/index.js"
 }

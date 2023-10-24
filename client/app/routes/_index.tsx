@@ -3,7 +3,7 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Send } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import type { MetaFunction } from "@remix-run/node";
 import type { FormEvent } from "react";
 
@@ -17,20 +17,21 @@ export default function Index() {
 
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    ws?.send(JSON.stringify({ message: draft, uid: "115" }));
+    ws?.send(JSON.stringify({ message: draft }));
     setDraft("");
   };
 
   return (
     <div className="flex flex-col h-[90vh] items-center justify-end gap-5 w-1/3 mx-auto my-4">
       <ScrollArea className="w-full max-h-[80vh]">
-        {messages.map(({ message }, idx) => (
-          <p
+        {messages.map(({ message, username }, idx) => (
+          <div
             key={idx}
-            className="bg-primary w-fit min-w-[35%] p-3 my-2 rounded-lg text-white"
+            className="flex flex-col bg-primary w-fit min-w-[35%] p-3 my-2 rounded-lg text-white"
           >
-            {message}
-          </p>
+            <p className="text-black text-sm">{username}</p>
+            <p>{message}</p>
+          </div>
         ))}
       </ScrollArea>
       <form className="flex gap-2 w-full" onSubmit={handleOnSubmit}>

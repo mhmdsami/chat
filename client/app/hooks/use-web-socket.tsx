@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 interface MessageData {
   message: string;
-  uid: string;
+  username: string;
 }
 
 export default function useWebSocket() {

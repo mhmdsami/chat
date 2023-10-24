@@ -1,21 +1,18 @@
 import Elysia from "elysia";
+import jwt from "@elysiajs/jwt";
+import { authController, webSocketController } from "./controllers";
+import { JWT_SECRET, PORT } from "./utils/config";
 
 const app = new Elysia()
-  .ws("/chat", {
-    open: (ws) => {
-      console.log("[INFO] Socket Open");
-      ws.subscribe("general");
-    },
-    message: (ws, message) => {
-      console.log("[INFO] Socket Message", message);
-      ws.publish("general", message);
-    },
-    close: (ws) => {
-      console.log("[INFO] Socket Close");
-      ws.unsubscribe("general");
-    },
-  })
-  .listen(5050);
+  .use(
+    jwt({
+      name: "jwt",
+      secret: JWT_SECRET,
+    }),
+  )
+  .use(authController)
+  .use(webSocketController)
+  .listen(PORT);
 
 console.log(
   `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`,
