@@ -23,17 +23,18 @@ export const webSocketController = new Elysia({
         return;
       }
       console.log("[INFO] Socket Message", message);
-      ws.publish("general", {
-        ...message,
-        username: ws.data.data.username,
-      });
 
       const [user] = await db
         .select()
         .from(users)
         .where(eq(users.username, ws.data.data.username));
 
-      await db.insert(messages).values({ ...message, userId: user.id });
+      const [messageFromDb] = await db
+        .insert(messages)
+        .values({ ...message, userId: user.id })
+        .returning();
+
+      ws.publish("general", { username: user.username, ...messageFromDb });
     },
     close: (ws) => {
       console.log("[INFO] Socket Close");

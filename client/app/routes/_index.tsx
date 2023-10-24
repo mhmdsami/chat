@@ -3,7 +3,7 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Send } from "lucide-react";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import { Form, Link, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
@@ -47,6 +47,10 @@ export default function Index() {
   const data = useLoaderData<LoaderData>();
   const { ws, messages } = useWebSocket();
   const [draft, setDraft] = useState<string>("");
+
+  useEffect(() => {
+    console.log(messages);
+  }, [messages]);
 
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

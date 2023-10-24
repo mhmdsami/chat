@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 interface MessageData {
+  id: number;
   content: string;
   username: string;
 }
@@ -17,7 +18,23 @@ export default function useWebSocket() {
     ws.current.onclose = (event) => {};
 
     ws.current.onmessage = (event: MessageEvent<string>) => {
-      setMessages((prev) => [...prev, JSON.parse(event.data) as MessageData]);
+      const message = JSON.parse(event.data) as MessageData;
+
+      setMessages((prev) => {
+        const result = [];
+        const map = new Map();
+        for (const item of [...prev, message]) {
+          if (!map.has(item.id)) {
+            map.set(item.id, true);
+            result.push({
+              id: item.id,
+              content: item.content,
+              username: item.username,
+            });
+          }
+        }
+        return result;
+      });
     };
 
     return () => {
