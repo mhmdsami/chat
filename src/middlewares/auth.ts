@@ -7,7 +7,7 @@ type UserFromToken = {
 
 export const isAuthenticated = new Elysia().derive(
   // @ts-ignore
-  async ({ cookie: { token }, request: { headers }, jwt }) => {
+  async ({ cookie: { token }, jwt }) => {
     const user = await jwt.verify(token.value);
     if (!user)
       return {

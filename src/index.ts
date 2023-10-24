@@ -1,6 +1,10 @@
 import Elysia from "elysia";
 import jwt from "@elysiajs/jwt";
-import { authController, webSocketController } from "./controllers";
+import {
+  authController,
+  userController,
+  webSocketController,
+} from "./controllers";
 import { JWT_SECRET, PORT } from "./utils/config";
 
 const app = new Elysia()
@@ -11,6 +15,7 @@ const app = new Elysia()
     }),
   )
   .use(authController)
+  .use(userController)
   .use(webSocketController)
   .listen(PORT);
 

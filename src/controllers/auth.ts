@@ -49,6 +49,7 @@ export const authController = new Elysia({
           username: users.username,
         });
 
+      set.status = 201;
       return {
         success: true,
         message: "User created successfully",
