@@ -2,12 +2,16 @@ import { json, redirect } from "@remix-run/node";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Button } from "~/components/ui/button";
-import { Form } from "@remix-run/react";
+import { Form, Link, useActionData } from "@remix-run/react";
 import type {
   LoaderFunction,
   ActionFunction,
   MetaFunction,
 } from "@remix-run/node";
+
+type ActionData = {
+  message: string;
+};
 
 export const meta: MetaFunction = () => {
   return [
@@ -46,6 +50,10 @@ export const action: ActionFunction = async ({ request }) => {
     }),
   });
 
+  if (res.status !== 200) {
+    return json(await res.json(), { status: res.status });
+  }
+
   const {
     data: { accessToken },
   } = await res.json();
@@ -58,12 +66,14 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function SignIn() {
+  const actionData = useActionData<ActionData>();
+
   return (
     <Form
       method="POST"
       className="flex flex-col gap-5 h-screen justify-center w-80 mx-auto"
     >
-      <h1 className="text-3xl font-bold">Welcome</h1>
+      <h1 className="text-3xl font-bold">Welcome Back!</h1>
       <div className="flex flex-col gap-2">
         <Label>Email</Label>
         <Input placeholder="Email" name="email" />
@@ -73,6 +83,13 @@ export default function SignIn() {
         <Input placeholder="Password" type="password" name="password" />
       </div>
       <Button type="submit">Sign In</Button>
+      <p className="text-xs text-destructive">{actionData?.message}</p>
+      <Link
+        to="/sign-up"
+        className="text-primary text-sm underline text-center"
+      >
+        Don't have an account? Create one now!
+      </Link>
     </Form>
   );
 }

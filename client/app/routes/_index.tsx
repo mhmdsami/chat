@@ -17,20 +17,20 @@ export default function Index() {
 
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    ws?.send(JSON.stringify({ message: draft }));
+    ws?.send(JSON.stringify({ content: draft }));
     setDraft("");
   };
 
   return (
     <div className="flex flex-col h-[90vh] items-center justify-end gap-5 w-1/3 mx-auto my-4">
       <ScrollArea className="w-full max-h-[80vh]">
-        {messages.map(({ message, username }, idx) => (
+        {messages.map(({ content, username }, idx) => (
           <div
             key={idx}
             className="flex flex-col bg-primary w-fit min-w-[35%] p-3 my-2 rounded-lg text-white"
           >
             <p className="text-black text-sm">{username}</p>
-            <p>{message}</p>
+            <p>{content}</p>
           </div>
         ))}
       </ScrollArea>

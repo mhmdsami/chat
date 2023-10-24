@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 interface MessageData {
-  message: string;
+  content: string;
   username: string;
 }
 

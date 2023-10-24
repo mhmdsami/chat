@@ -1,18 +1,11 @@
-import {
-  boolean,
-  date,
-  pgTable,
-  serial,
-  text,
-  uuid,
-} from "drizzle-orm/pg-core";
+import { timestamp, pgTable, serial, text } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull(),
   email: text("email").unique().notNull(),
   password: text("password").notNull(),
-  createdAt: date("created_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
 export const messages = pgTable("messages", {
@@ -21,5 +14,5 @@ export const messages = pgTable("messages", {
     .notNull()
     .references(() => users.id),
   content: text("content").notNull(),
-  createdAt: date("created_at").defaultNow(),
+  createdAt: timestamp("created_at").defaultNow(),
 });
