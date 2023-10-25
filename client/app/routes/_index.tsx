@@ -3,7 +3,7 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { Send } from "lucide-react";
-import {useEffect, useState} from "react";
+import { useState } from "react";
 import { Form, Link, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import type { LoaderFunction, MetaFunction } from "@remix-run/node";
@@ -48,10 +48,6 @@ export default function Index() {
   const { ws, messages } = useWebSocket();
   const [draft, setDraft] = useState<string>("");
 
-  useEffect(() => {
-    console.log(messages);
-  }, [messages]);
-
   const handleOnSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     ws?.send(JSON.stringify({ content: draft }));
@@ -76,9 +72,21 @@ export default function Index() {
           {messages.map(({ content, username }, idx) => (
             <div
               key={idx}
-              className={`flex flex-col w-fit min-w-[35%] p-3 my-2 rounded-lg text-white ${data?.user?.username === username ? "bg-secondary" : "bg-primary"}`}
+              className={`flex flex-col w-fit min-w-[35%] p-3 my-2 rounded-lg text-white ${
+                data?.user?.username === username
+                  ? "bg-secondary"
+                  : "bg-primary"
+              }`}
             >
-              <p className={`text-sm ${data?.user?.username === username ? "text-primary" : "text-black"}`}>{username}</p>
+              <p
+                className={`text-sm ${
+                  data?.user?.username === username
+                    ? "text-primary"
+                    : "text-black"
+                }`}
+              >
+                {username}
+              </p>
               <p>{content}</p>
             </div>
           ))}
